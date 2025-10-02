@@ -1,9 +1,19 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Zap, Package, Coffee, Monitor, Printer, Droplets, Headphones, ChevronRight, Check } from 'lucide-react';
+import { Zap, Package, Coffee, Monitor, Printer, Droplets, ChevronRight, Check } from 'lucide-react';
 
 export default function OfficeBuddyLanding() {
   const [scrolled, setScrolled] = useState(false);
   const [activeService, setActiveService] = useState(0);
+  const [currentText, setCurrentText] = useState(0);
+
+  const rotatingTexts = [
+    "stationery, tech rentals, and essential equipment",
+    "copiers, computers, and water dispensers",
+    "office furniture, printers, and accessories",
+    "everything delivered seamlessly to your door"
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +26,13 @@ export default function OfficeBuddyLanding() {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveService((prev) => (prev + 1) % 3);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentText((prev) => (prev + 1) % rotatingTexts.length);
     }, 3000);
     return () => clearInterval(interval);
   }, []);
@@ -40,16 +57,48 @@ export default function OfficeBuddyLanding() {
     "Quick Delivery"
   ];
 
+  const navItems = ["Products", "Services", "Rentals", "Contact"];
+
   return (
     <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-white/80 backdrop-blur-xl shadow-sm' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-between">
+            {/* Left Nav Items */}
+            <div className="hidden md:flex items-center gap-8">
+              {navItems.slice(0, 2).map((item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+
+            {/* Center Logo */}
             <div className="text-2xl font-bold tracking-tight">
               <span className="text-gray-900">Office</span>
               <span className="text-blue-600">Buddy</span>
             </div>
+
+            {/* Right Nav Items */}
+            <div className="hidden md:flex items-center gap-8">
+              {navItems.slice(2).map((item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+
+            {/* Mobile menu placeholder */}
+            <div className="md:hidden w-8"></div>
           </div>
         </div>
       </nav>
@@ -70,26 +119,41 @@ export default function OfficeBuddyLanding() {
 
             {/* Main Heading */}
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight">
-              <span className="inline-block animate-slide-up">Put your office</span>
-              <br />
-              <span className="inline-block animate-slide-up bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" style={{animationDelay: '0.1s'}}>
+              <span className="inline-block animate-slide-up">Put your office </span>
+              <span className="inline-block animate-slide-up animated-gradient bg-clip-text text-transparent" style={{animationDelay: '0.1s'}}>
                 on Autopilot
               </span>
             </h1>
 
-            {/* Subheading */}
-            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto animate-fade-in" style={{animationDelay: '0.3s'}}>
-              Everything your office needs—stationery, tech rentals, and essential equipment—delivered seamlessly
-            </p>
+            {/* Subheading with rotating text */}
+            <div className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto animate-fade-in h-16 flex items-center justify-center" style={{animationDelay: '0.3s'}}>
+              <p className="inline">
+                Everything your office needs—
+                <span className="inline-block relative h-8 w-full max-w-xl mx-auto overflow-hidden align-middle">
+                  {rotatingTexts.map((text, index) => (
+                    <span
+                      key={index}
+                      className="absolute left-0 right-0 transition-all duration-500 ease-in-out"
+                      style={{
+                        transform: `translateY(${(index - currentText) * 100}%)`,
+                        opacity: index === currentText ? 1 : 0
+                      }}
+                    >
+                      {text}
+                    </span>
+                  ))}
+                </span>
+              </p>
+            </div>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in" style={{animationDelay: '0.5s'}}>
-              <button className="group px-8 py-4 bg-gray-900 text-white rounded-full font-medium hover:bg-gray-800 transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl hover:scale-105">
-                Get Started
-                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <button className="group px-8 py-3.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+                Set up my office
               </button>
-              <button className="px-8 py-4 bg-white text-gray-900 rounded-full font-medium border-2 border-gray-200 hover:border-gray-900 transition-all duration-300 hover:scale-105">
-                View Products
+              <button className="group px-8 py-3.5 bg-white text-gray-900 rounded-lg font-medium border-2 border-gray-200 hover:border-gray-900 transition-all duration-300 hover:scale-105 flex items-center gap-2">
+                Talk to Sarath
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
 
@@ -107,7 +171,7 @@ export default function OfficeBuddyLanding() {
       </section>
 
       {/* Services Carousel */}
-      <section className="py-20 px-6 bg-gray-50">
+      <section id="services" className="py-20 px-6 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">What we offer</h2>
@@ -139,7 +203,7 @@ export default function OfficeBuddyLanding() {
       </section>
 
       {/* Products Grid */}
-      <section className="py-20 px-6">
+      <section id="products" className="py-20 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">Popular Rentals</h2>
@@ -164,7 +228,7 @@ export default function OfficeBuddyLanding() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-6 bg-gradient-to-br from-blue-600 to-purple-600 text-white">
+      <section id="contact" className="py-20 px-6 bg-gradient-to-br from-blue-600 to-purple-600 text-white">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Ready to transform your office?
@@ -172,7 +236,7 @@ export default function OfficeBuddyLanding() {
           <p className="text-xl mb-10 opacity-90">
             Join hundreds of businesses that trust Office Buddy
           </p>
-          <button className="group px-8 py-4 bg-white text-gray-900 rounded-full font-medium hover:bg-gray-100 transition-all duration-300 flex items-center gap-2 mx-auto shadow-lg hover:shadow-xl hover:scale-105">
+          <button className="group px-8 py-3.5 bg-white text-gray-900 rounded-lg font-medium hover:bg-gray-100 transition-all duration-300 inline-flex items-center gap-2 shadow-lg hover:shadow-xl hover:scale-105">
             Start Free Trial
             <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
@@ -211,6 +275,15 @@ export default function OfficeBuddyLanding() {
           }
         }
 
+        @keyframes gradient-shift {
+          0%, 100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+
         .animate-slide-up {
           animation: slide-up 0.8s ease-out forwards;
           opacity: 0;
@@ -219,6 +292,12 @@ export default function OfficeBuddyLanding() {
         .animate-fade-in {
           animation: fade-in 0.8s ease-out forwards;
           opacity: 0;
+        }
+
+        .animated-gradient {
+          background: linear-gradient(90deg, #2563eb, #9333ea, #2563eb, #9333ea);
+          background-size: 300% 100%;
+          animation: gradient-shift 4s ease infinite;
         }
       `}</style>
     </div>
