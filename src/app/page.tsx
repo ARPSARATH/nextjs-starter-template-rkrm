@@ -1,18 +1,17 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Zap, Package, Coffee, Monitor, Printer, Droplets, ChevronRight, Check } from 'lucide-react';
+import { ChevronRight, Zap, Check, Phone } from 'lucide-react';
 
-export default function OfficeBuddyLanding() {
+export default function HeroSection() {
   const [scrolled, setScrolled] = useState(false);
-  const [activeService, setActiveService] = useState(0);
   const [currentText, setCurrentText] = useState(0);
 
   const rotatingTexts = [
     "stationery, tech rentals, and essential equipment",
     "copiers, computers, and water dispensers",
     "office furniture, printers, and accessories",
-    "everything delivered seamlessly to your door"
+    "premium supplies delivered seamlessly"
   ];
 
   useEffect(() => {
@@ -25,30 +24,10 @@ export default function OfficeBuddyLanding() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveService((prev) => (prev + 1) % 3);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
       setCurrentText((prev) => (prev + 1) % rotatingTexts.length);
     }, 3000);
     return () => clearInterval(interval);
   }, []);
-
-  const services = [
-    { icon: Package, title: "Premium Stationery", desc: "High-quality office supplies delivered" },
-    { icon: Monitor, title: "Tech Rentals", desc: "Computers & equipment on demand" },
-    { icon: Coffee, title: "Office Essentials", desc: "Copiers, dispensers & more" }
-  ];
-
-  const products = [
-    { icon: Printer, name: "Copiers & Printers", price: "From ₹2,500/mo" },
-    { icon: Droplets, name: "Water Dispensers", price: "From ₹800/mo" },
-    { icon: Monitor, name: "Computers & Laptops", price: "From ₹3,500/mo" },
-    { icon: Package, name: "Office Furniture", price: "From ₹1,200/mo" },
-  ];
 
   const features = [
     "24/7 Support",
@@ -60,7 +39,7 @@ export default function OfficeBuddyLanding() {
   const navItems = ["Products", "Services", "Rentals", "Contact"];
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
+    <div className="min-h-screen bg-white text-gray-900">
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-white/80 backdrop-blur-xl shadow-sm' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto px-6 py-4">
@@ -104,36 +83,41 @@ export default function OfficeBuddyLanding() {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 relative overflow-hidden">
-        <div className="max-w-6xl mx-auto">
+      <section className="pt-32 pb-20 px-6 relative overflow-hidden min-h-screen flex items-center">
+        <div className="max-w-6xl mx-auto w-full">
           {/* Animated background elements */}
           <div className="absolute top-20 left-10 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
           <div className="absolute top-40 right-10 w-72 h-72 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style={{animationDelay: '1s'}}></div>
           
           <div className="text-center relative z-10">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-sm font-medium text-blue-600 mb-8 animate-fade-in">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-sm font-medium text-blue-600 mb-8 opacity-0 animate-fade-in">
               <Zap className="w-4 h-4" />
               Smart Office Solutions
             </div>
 
             {/* Main Heading */}
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight">
-              <span className="inline-block animate-slide-up">Put your office </span>
-              <span className="inline-block animate-slide-up animated-gradient bg-clip-text text-transparent" style={{animationDelay: '0.1s'}}>
-                on Autopilot
-              </span>
-            </h1>
+            <div className="mb-6">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight">
+                <span className="block mb-2 opacity-0 animate-slide-up animated-multicolor-gradient bg-clip-text text-transparent">
+                  Office Buddy
+                </span>
+                <span className="block opacity-0 animate-slide-up" style={{animationDelay: '0.2s'}}>
+                  Put your office on{' '}
+                  <span className="text-blue-600 animated-pulse-text">Autopilot</span>
+                </span>
+              </h1>
+            </div>
 
             {/* Subheading with rotating text */}
-            <div className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto animate-fade-in h-16 flex items-center justify-center" style={{animationDelay: '0.3s'}}>
-              <p className="inline">
-                Everything your office needs—
-                <span className="inline-block relative h-8 w-full max-w-xl mx-auto overflow-hidden align-middle">
+            <div className="text-lg md:text-xl text-gray-600 mb-12 max-w-3xl mx-auto opacity-0 animate-fade-in" style={{animationDelay: '0.4s'}}>
+              <div className="flex flex-col items-center justify-center min-h-[60px]">
+                <p className="mb-1">Everything your office needs—</p>
+                <div className="relative h-7 w-full max-w-2xl overflow-hidden">
                   {rotatingTexts.map((text, index) => (
                     <span
                       key={index}
-                      className="absolute left-0 right-0 transition-all duration-500 ease-in-out"
+                      className="absolute left-0 right-0 text-center transition-all duration-700 ease-in-out font-medium"
                       style={{
                         transform: `translateY(${(index - currentText) * 100}%)`,
                         opacity: index === currentText ? 1 : 0
@@ -142,26 +126,30 @@ export default function OfficeBuddyLanding() {
                       {text}
                     </span>
                   ))}
-                </span>
-              </p>
+                </div>
+              </div>
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in" style={{animationDelay: '0.5s'}}>
-              <button className="group px-8 py-3.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 opacity-0 animate-fade-in" style={{animationDelay: '0.6s'}}>
+              <button className="group px-8 py-4 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 text-base">
                 Set up my office
               </button>
-              <button className="group px-8 py-3.5 bg-white text-gray-900 rounded-lg font-medium border-2 border-gray-200 hover:border-gray-900 transition-all duration-300 hover:scale-105 flex items-center gap-2">
+              <a
+                href="tel:+919884989466"
+                className="group px-8 py-4 bg-white text-gray-900 rounded-md font-medium border-2 border-gray-200 hover:border-gray-900 transition-all duration-300 hover:scale-105 flex items-center gap-2 text-base shadow-sm hover:shadow-md"
+              >
+                <Phone className="w-4 h-4" />
                 Talk to Sarath
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
+              </a>
             </div>
 
             {/* Features */}
-            <div className="flex flex-wrap gap-6 justify-center mt-16 animate-fade-in" style={{animationDelay: '0.7s'}}>
+            <div className="flex flex-wrap gap-6 justify-center opacity-0 animate-fade-in" style={{animationDelay: '0.8s'}}>
               {features.map((feature, idx) => (
-                <div key={idx} className="flex items-center gap-2 text-gray-600">
-                  <Check className="w-5 h-5 text-blue-600" />
+                <div key={idx} className="flex items-center gap-2 text-gray-600 text-sm">
+                  <Check className="w-4 h-4 text-blue-600" />
                   <span className="font-medium">{feature}</span>
                 </div>
               ))}
@@ -169,90 +157,6 @@ export default function OfficeBuddyLanding() {
           </div>
         </div>
       </section>
-
-      {/* Services Carousel */}
-      <section id="services" className="py-20 px-6 bg-gray-50">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">What we offer</h2>
-            <p className="text-xl text-gray-600">Complete office solutions under one roof</p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {services.map((service, idx) => (
-              <div
-                key={idx}
-                className={`p-8 rounded-3xl transition-all duration-500 cursor-pointer ${
-                  activeService === idx
-                    ? 'bg-white shadow-xl scale-105'
-                    : 'bg-white/50 hover:bg-white hover:shadow-lg'
-                }`}
-                onMouseEnter={() => setActiveService(idx)}
-              >
-                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-500 ${
-                  activeService === idx ? 'bg-blue-600' : 'bg-gray-100'
-                }`}>
-                  <service.icon className={`w-8 h-8 ${activeService === idx ? 'text-white' : 'text-gray-600'}`} />
-                </div>
-                <h3 className="text-2xl font-bold mb-3">{service.title}</h3>
-                <p className="text-gray-600">{service.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Products Grid */}
-      <section id="products" className="py-20 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Popular Rentals</h2>
-            <p className="text-xl text-gray-600">Flexible plans for every business size</p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.map((product, idx) => (
-              <div
-                key={idx}
-                className="group p-6 bg-white rounded-2xl border-2 border-gray-100 hover:border-blue-600 transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
-              >
-                <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mb-4 group-hover:bg-blue-600 transition-colors">
-                  <product.icon className="w-6 h-6 text-blue-600 group-hover:text-white transition-colors" />
-                </div>
-                <h3 className="text-lg font-bold mb-2">{product.name}</h3>
-                <p className="text-gray-600 font-medium">{product.price}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section id="contact" className="py-20 px-6 bg-gradient-to-br from-blue-600 to-purple-600 text-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Ready to transform your office?
-          </h2>
-          <p className="text-xl mb-10 opacity-90">
-            Join hundreds of businesses that trust Office Buddy
-          </p>
-          <button className="group px-8 py-3.5 bg-white text-gray-900 rounded-lg font-medium hover:bg-gray-100 transition-all duration-300 inline-flex items-center gap-2 shadow-lg hover:shadow-xl hover:scale-105">
-            Start Free Trial
-            <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </button>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-12 px-6 bg-gray-900 text-gray-300">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="text-2xl font-bold mb-4">
-            <span className="text-white">Office</span>
-            <span className="text-blue-500">Buddy</span>
-          </div>
-          <p className="text-sm">© 2025 Office Buddy. All rights reserved.</p>
-        </div>
-      </footer>
 
       <style jsx>{`
         @keyframes slide-up {
@@ -284,20 +188,39 @@ export default function OfficeBuddyLanding() {
           }
         }
 
+        @keyframes pulse-glow {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.8;
+          }
+        }
+
         .animate-slide-up {
           animation: slide-up 0.8s ease-out forwards;
-          opacity: 0;
         }
 
         .animate-fade-in {
           animation: fade-in 0.8s ease-out forwards;
-          opacity: 0;
         }
 
-        .animated-gradient {
-          background: linear-gradient(90deg, #2563eb, #9333ea, #2563eb, #9333ea);
+        .animated-multicolor-gradient {
+          background: linear-gradient(90deg, 
+            #3b82f6,
+            #8b5cf6,
+            #ec4899,
+            #f59e0b,
+            #3b82f6
+          );
           background-size: 300% 100%;
-          animation: gradient-shift 4s ease infinite;
+          animation: gradient-shift 5s ease infinite;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .animated-pulse-text {
+          animation: pulse-glow 2s ease-in-out infinite;
         }
       `}</style>
     </div>
